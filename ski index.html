@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sejarah Kebudayaan Islam — by iana</title>
+
+  <!-- Google Fonts: Cormorant Garamond (display) + Lato (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES — tema warna & font
+    ============================================================ */
+    :root {
+      --sage:        #7A9E7E;
+      --sage-light:  #B2CEAB;
+      --sage-dark:   #4A7550;
+      --cream:       #F5F0E8;
+      --cream-dark:  #EAE2D0;
+      --dusty-blue:  #7B9BB5;
+      --dusty-blue2: #A8C0D0;
+      --soft-brown:  #A07850;
+      --warm-white:  #FDFAF4;
+      --gold:        #C9A84C;
+      --gold-light:  #E8D09A;
+      --text-dark:   #2C2416;
+      --text-mid:    #5A4A30;
+      --text-soft:   #8A7A60;
+      --shadow:      rgba(44,36,22,.12);
+      --bg:          var(--warm-white);
+      --card-bg:     #FFFFFF;
+      --nav-bg:      rgba(253,250,244,.95);
+    }
+
+    /* === DARK MODE === */
+    [data-theme="dark"] {
+      --bg:          #1A1610;
+      --card-bg:     #252018;
+      --warm-white:  #1A1610;
+      --cream:       #252018;
+      --cream-dark:  #1E1A12;
+      --text-dark:   #F0E8D8;
+      --text-mid:    #C8B898;
+      --text-soft:   #8A7A60;
+      --nav-bg:      rgba(26,22,16,.97);
+      --shadow:      rgba(0,0,0,.35);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      transition: background .4s, color .4s;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       LOADING SCREEN
+    ============================================================ */
+    #loading-screen {
+      position: fixed; inset: 0;
+      background: var(--text-dark);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity .6s ease;
+    }
+    #loading-screen.hide { opacity: 0; pointer-events: none; }
+
+    .loader-ornament {
+      font-size: 3rem; color: var(--gold);
+      animation: spin 3s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loader-text {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--cream);
+      font-size: 1.4rem;
+      letter-spacing: .2em;
+      font-style: italic;
+    }
+    .loader-bar {
+      width: 200px; height: 2px;
+      background: rgba(255,255,255,.1);
+      margin-top: 1.5rem;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .loader-bar-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--gold), var(--sage-light));
+      animation: load 2s ease forwards;
+    }
+    @keyframes load { to { width: 100%; } }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--cream-dark);
+      z-index: 1000;
+      padding: .8rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, border-color .4s;
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--soft-brown);
+      letter-spacing: .04em;
+      text-decoration: none;
+    }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .theme-btn {
+      background: none; border: 1px solid var(--cream-dark);
+      padding: .4rem .8rem; border-radius: 2rem;
+      cursor: pointer; font-size: .8rem;
+      color: var(--text-mid); transition: all .3s;
+      font-family: 'Lato', sans-serif;
+    }
+    .theme-btn:hover { background: var(--gold-light); border-color: var(--gold); }
+
+    .hamburger {
+      display: none; flex-direction: column;
+      gap: 5px; cursor: pointer;
+      background: none; border: none; padding: .4rem;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text-mid);
+      transition: all .3s;
+      border-radius: 2px;
+    }
+
+    .nav-menu {
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .nav-menu a {
+      font-size: .82rem; color: var(--text-mid);
+      text-decoration: none; letter-spacing: .05em;
+      transition: color .3s;
+      font-weight: 400;
+    }
+    .nav-menu a:hover { color: var(--sage-dark); }
+
+    /* mobile nav */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none; position: fixed;
+        top: 58px; left: 0; right: 0;
+        background: var(--nav-bg);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 2rem 1.5rem;
+        border-bottom: 1px solid var(--cream-dark);
+        gap: 1rem;
+      }
+      .nav-menu.open { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* ============================================================
+       HERO / HOME SECTION
+    ============================================================ */
+    #home {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 40%, rgba(122,158,126,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 70%, rgba(123,155,181,.15) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 20%, rgba(201,168,76,.1) 0%, transparent 60%),
+        var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* decorative Islamic geometric SVG background */
+    #home::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%237A9E7E' stroke-width='0.4' opacity='0.3'%3E%3Cpolygon points='40,5 75,27.5 75,52.5 40,75 5,52.5 5,27.5'/%3E%3Cpolygon points='40,15 65,30 65,50 40,65 15,50 15,30'/%3E%3Ccircle cx='40' cy='40' r='12'/%3E%3C/g%3E%3C/svg%3E");
+      opacity: .4;
+    }
+
+    .hero-badge {
+      font-family: 'Amiri', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: .15em;
+      margin-bottom: 1.2rem;
+      opacity: 0; animation: fadeUp .8s .3s ease forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.15;
+      margin-bottom: .5rem;
+      opacity: 0; animation: fadeUp .8s .5s ease forwards;
+    }
+    .hero-title span { color: var(--sage-dark); }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--text-soft);
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp .8s .7s ease forwards;
+    }
+
+    .hero-desc {
+      max-width: 560px;
+      font-size: .95rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      opacity: 0; animation: fadeUp .8s .9s ease forwards;
+    }
+
+    .hero-scroll-hint {
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      opacity: 0; animation: fadeUp .8s 1.2s ease forwards;
+    }
+    .hero-scroll-hint span { font-size: .75rem; color: var(--text-soft); letter-spacing: .1em; }
+    .scroll-arrow {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       SECTION HEADERS (shared)
+    ============================================================ */
+    .section-wrapper {
+      padding: 5rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      text-align: center;
+      margin-bottom: .5rem;
+    }
+    .section-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--text-soft);
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 1rem;
+    }
+    .ornament {
+      display: block; text-align: center;
+      font-size: 1.5rem; color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    /* ============================================================
+       CARDS GRID (halaman utama)
+    ============================================================ */
+    #rooms { background: var(--cream); padding: 5rem 1.5rem; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .room-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      border: 1px solid var(--cream-dark);
+      box-shadow: 0 4px 24px var(--shadow);
+      display: flex; flex-direction: column;
+      gap: .8rem;
+      transition: transform .3s ease, box-shadow .3s ease;
+      cursor: pointer;
+      position: relative; overflow: hidden;
+    }
+    .room-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--card-accent, var(--sage));
+      border-radius: 16px 16px 0 0;
+    }
+    .room-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px var(--shadow);
+    }
+    .card-icon { font-size: 2rem; }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .card-desc {
+      font-size: .82rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+      font-weight: 300;
+      flex: 1;
+    }
+    .card-btn {
+      display: inline-block;
+      padding: .55rem 1.2rem;
+      border-radius: 2rem;
+      background: var(--card-accent, var(--sage));
+      color: #fff;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: opacity .3s, transform .2s;
+      align-self: flex-start;
+      font-family: 'Lato', sans-serif;
+    }
+    .card-btn:hover { opacity: .85; transform: scale(1.04); }
+
+    /* ============================================================
+       TIMELINE
+    ============================================================ */
+    #timeline-section {
+      padding: 5rem 1.5rem;
+      background: var(--bg);
+    }
+    .timeline {
+      position: relative;
+      max-width: 800px; margin: 0 auto;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 50%; transform: translateX(-50%);
+      top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, var(--gold), var(--sage), var(--dusty-blue));
+    }
+    .tl-item {
+      display: flex; gap: 2rem;
+      margin-bottom: 2.5rem;
+      align-items: flex-start;
+      position: relative;
+    }
+    .tl-item:nth-child(even) { flex-direction: row-reverse; }
+    .tl-item:nth-child(even) .tl-content { text-align: right; }
+
+    .tl-dot {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      width: 14px; height: 14px;
+      background: var(--gold);
+      border-radius: 50%;
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--gold);
+      top: 4px; z-index: 1;
+    }
+    .tl-content {
+      flex: 1; max-width: calc(50% - 2rem);
+      background: var(--card-bg);
+      border: 1px solid var(--cream-dark);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    .tl-year {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .9rem; font-weight: 700;
+      color: var(--gold); margin-bottom: .3rem;
+      letter-spacing: .08em;
+    }
+    .tl-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: .3rem;
+    }
+    .tl-desc { font-size: .82rem; color: var(--text-soft); line-height: 1.6; }
+
+    @media (max-width: 640px) {
+      .timeline::before { left: 16px; }
+      .tl-item, .tl-item:nth-child(even) { flex-direction: column; padding-left: 40px; }
+      .tl-item:nth-child(even) .tl-content { text-align: left; }
+      .tl-dot { left: 16px; }
+      .tl-content { max-width: 100%; }
+    }
+
+    /* ============================================================
+       MATERI SECTIONS — shared layout
+    ============================================================ */
+    .materi-section {
+      padding: 5rem 1.5rem;
+      display: none; /* controlled by JS */
+    }
+    .materi-section.active { display: block; }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .6rem 1.4rem;
+      border-radius: 2rem;
+      background: var(--cream-dark);
+      color: var(--text-mid);
+      border: none; cursor: pointer;
+      font-size: .85rem; font-family: 'Lato', sans-serif;
+      margin-bottom: 2.5rem;
+      transition: background .3s;
+    }
+    .back-btn:hover { background: var(--gold-light); }
+
+    /* info box */
+    .info-box {
+      background: var(--card-bg);
+      border: 1px solid var(--cream-dark);
+      border-left: 4px solid var(--gold);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    .info-box h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--text-dark); margin-bottom: .6rem;
+    }
+    .info-box p, .info-box li {
+      font-size: .9rem; color: var(--text-mid);
+      line-height: 1.8;
+    }
+    .info-box ul { padding-left: 1.2rem; }
+
+    /* person card */
+    .person-card {
+      background: var(--card-bg);
+      border: 1px solid var(--cream-dark);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+    .person-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--sage-dark); margin-bottom: .3rem;
+    }
+    .person-card .period {
+      font-size: .82rem; color: var(--gold);
+      font-weight: 700; letter-spacing: .06em;
+      margin-bottom: 1rem;
+    }
+    .person-card p { font-size: .9rem; color: var(--text-mid); line-height: 1.8; margin-bottom: .5rem; }
+    .person-card strong { color: var(--text-dark); }
+
+    .tag {
+      display: inline-block;
+      padding: .25rem .7rem;
+      background: var(--cream-dark);
+      color: var(--text-mid);
+      border-radius: 2rem; font-size: .75rem;
+      margin: .2rem .1rem;
+    }
+
+    /* quote block */
+    .quote-block {
+      border-left: 3px solid var(--sage);
+      padding: 1rem 1.5rem;
+      margin: 2rem 0;
+      background: rgba(122,158,126,.07);
+      border-radius: 0 12px 12px 0;
+    }
+    .quote-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--text-mid);
+      line-height: 1.8;
+    }
+    .quote-block cite { font-size: .8rem; color: var(--text-soft); margin-top: .5rem; display: block; }
+
+    /* two-col grid */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* section internal header */
+    .sec-head {
+      background: linear-gradient(135deg, var(--sage-dark), var(--dusty-blue));
+      color: #fff;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .sec-head h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; margin-bottom: .4rem;
+    }
+    .sec-head p { font-size: .9rem; opacity: .85; line-height: 1.7; }
+
+    /* nabi special header */
+    .nabi-head {
+      background: linear-gradient(135deg, #4A3520, #8B6040, #C9A84C);
+      color: #F5EAD5;
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      margin-bottom: 2.5rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .nabi-head::before {
+      content: '☽';
+      position: absolute; right: 2rem; top: 1rem;
+      font-size: 5rem; opacity: .12;
+    }
+    .nabi-head h2 {
+      font-family: 'Amiri', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; margin-bottom: .5rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .nabi-head .arabic {
+      font-family: 'Amiri', serif;
+      font-size: 2rem; color: var(--gold-light);
+      margin-bottom: .5rem;
+      display: block;
+    }
+    .nabi-head p { font-size: .95rem; opacity: .9; line-height: 1.8; }
+
+    /* biodata table */
+    .bio-table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+    .bio-table tr { border-bottom: 1px solid var(--cream-dark); }
+    .bio-table td {
+      padding: .6rem .5rem;
+      font-size: .88rem; color: var(--text-mid);
+      vertical-align: top;
+    }
+    .bio-table td:first-child {
+      color: var(--text-soft);
+      width: 40%; font-weight: 700;
+      font-size: .82rem;
+    }
+
+    /* wali card special */
+    .wali-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .wali-card {
+      background: var(--card-bg);
+      border: 1px solid var(--cream-dark);
+      border-radius: 16px;
+      padding: 1.8rem;
+      box-shadow: 0 4px 20px var(--shadow);
+      border-top: 3px solid var(--sage);
+      transition: transform .3s;
+    }
+    .wali-card:hover { transform: translateY(-4px); }
+    .wali-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--sage-dark); margin-bottom: .2rem;
+    }
+    .wali-card .nama-asli { font-size: .8rem; color: var(--gold); margin-bottom: .8rem; }
+    .wali-card p { font-size: .85rem; color: var(--text-mid); line-height: 1.7; margin-bottom: .4rem; }
+
+    /* tokoh card */
+    .tokoh-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--cream-dark);
+      padding: 2rem;
+      box-shadow: 0 4px 20px var(--shadow);
+      border-top: 3px solid var(--dusty-blue);
+      margin-bottom: 1.5rem;
+    }
+    .tokoh-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--dusty-blue); margin-bottom: .3rem;
+    }
+    .tokoh-card .period { font-size: .82rem; color: var(--gold); margin-bottom: .8rem; }
+    .tokoh-card p { font-size: .9rem; color: var(--text-mid); line-height: 1.8; }
+
+    /* ============================================================
+       ACCORDION
+    ============================================================ */
+    .accordion { margin-bottom: 1rem; }
+    .acc-header {
+      width: 100%; text-align: left;
+      background: var(--card-bg);
+      border: 1px solid var(--cream-dark);
+      border-radius: 12px;
+      padding: 1.1rem 1.5rem;
+      cursor: pointer; display: flex;
+      justify-content: space-between; align-items: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text-dark);
+      transition: background .3s;
+    }
+    .acc-header:hover { background: var(--cream-dark); }
+    .acc-header .acc-icon { font-size: 1.2rem; transition: transform .3s; }
+    .acc-header.open .acc-icon { transform: rotate(45deg); }
+    .acc-body {
+      display: none;
+      background: var(--card-bg);
+      border: 1px solid var(--cream-dark);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 1.2rem 1.5rem;
+    }
+    .acc-body.open { display: block; }
+    .acc-body p { font-size: .88rem; color: var(--text-mid); line-height: 1.8; margin-bottom: .5rem; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--text-dark);
+      color: var(--cream);
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+    }
+    footer .footer-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--gold-light);
+      max-width: 600px; margin: 0 auto 1rem;
+      line-height: 1.7;
+    }
+    footer .footer-cite { font-size: .8rem; color: rgba(245,240,232,.5); margin-bottom: 2rem; }
+    footer .footer-desc { font-size: .85rem; color: rgba(245,240,232,.6); line-height: 1.7; max-width: 500px; margin: 0 auto 2rem; }
+    footer .footer-sig { font-size: .8rem; color: rgba(245,240,232,.35); letter-spacing: .15em; margin-top: 2rem; }
+
+    /* ============================================================
+       BACK TO TOP
+    ============================================================ */
+    #back-top {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--sage-dark);
+      color: #fff;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s, transform .3s;
+      z-index: 800;
+    }
+    #back-top.show { opacity: 1; pointer-events: auto; }
+    #back-top:hover { transform: translateY(-3px); }
+
+    /* ============================================================
+       FADE-IN on scroll
+    ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .text-center { text-align: center; }
+    .mt-1 { margin-top: 1rem; }
+    .mt-2 { margin-top: 2rem; }
+    .mb-1 { margin-bottom: 1rem; }
+    .gold { color: var(--gold); }
+    .sage { color: var(--sage-dark); }
+
+    /* progress bar for timeline items */
+    .mini-tl { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 1.5rem; }
+    .mini-tl::before {
+      content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px;
+      width: 2px; background: var(--gold-light); border-radius: 2px;
+    }
+    .mini-tl-item {
+      position: relative; padding: .4rem 0 .4rem 1rem;
+      font-size: .88rem; color: var(--text-mid); line-height: 1.6;
+    }
+    .mini-tl-item::before {
+      content: ''; position: absolute; left: -6px; top: 11px;
+      width: 8px; height: 8px; background: var(--gold);
+      border-radius: 50%;
+    }
+    .mini-tl-item strong { color: var(--text-dark); font-size: .82rem; display: block; }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     LOADING SCREEN
+============================================================ -->
+<div id="loading-screen">
+  <div class="loader-ornament">✦</div>
+  <div class="loader-text">Sejarah Kebudayaan Islam</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav id="navbar">
+  <a class="nav-brand" href="#home" onclick="showHome()">☽ Sejarah Islam</a>
+  <div class="nav-right">
+    <div class="nav-menu" id="nav-menu">
+      <a href="#home" onclick="showHome();closeMenu()">Beranda</a>
+      <a href="#rooms" onclick="showHome();closeMenu()">Ruang Materi</a>
+      <a href="#timeline-section" onclick="showHome();closeMenu()">Timeline</a>
+      <a href="#footer-sec" onclick="closeMenu()">Tentang</a>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()">🌙 Mode</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HALAMAN UTAMA (HOME)
+============================================================ -->
+<div id="main-home">
+
+  <!-- HERO -->
+  <section id="home">
+    <div class="hero-badge">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <h1 class="hero-title">Sejarah <span>Kebudayaan</span><br>Islam</h1>
+    <p class="hero-subtitle">— by iana</p>
+    <p class="hero-desc">
+      Sebuah perjalanan panjang dari tanah Arab hingga Nusantara.
+      Mengenal Islam bukan sekadar hafalan sejarah, melainkan merasakan
+      sambungan jiwa antara masa lalu dan kini.
+    </p>
+    <div class="hero-scroll-hint">
+      <span>JELAJAHI</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- RUANG MATERI -->
+  <section id="rooms">
+    <div style="max-width:1100px;margin:0 auto;padding:0 .5rem">
+      <span class="ornament">✦</span>
+      <h2 class="section-title">Ruang Materi</h2>
+      <p class="section-subtitle">Pilih ruang untuk memulai perjalanan sejarah</p>
+
+      <div class="cards-grid">
+
+        <!-- Card 1 -->
+        <div class="room-card fade-in" style="--card-accent:#C9A84C">
+          <div class="card-icon">🌙</div>
+          <div class="card-title">Masa Nabi Muhammad ﷺ</div>
+          <div class="card-desc">Perjalanan hidup Rasulullah ﷺ dari lahir di Mekkah hingga wafat di Madinah. Section paling lengkap dan emosional.</div>
+          <button class="card-btn" onclick="showSection('nabi')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="room-card fade-in" style="--card-accent:#7A9E7E">
+          <div class="card-icon">👑</div>
+          <div class="card-title">Khulafaur Rasyidin</div>
+          <div class="card-desc">Empat khalifah pengganti Nabi yang membawa Islam ke kejayaan awalnya. Sahabat terbaik Rasulullah ﷺ.</div>
+          <button class="card-btn" onclick="showSection('khulafa')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="room-card fade-in" style="--card-accent:#7B9BB5">
+          <div class="card-icon">⚔️</div>
+          <div class="card-title">Dinasti Umayyah</div>
+          <div class="card-desc">Dinasti Islam pertama yang memperluas wilayah dari Spanyol hingga Asia Tengah. Pusat di Damaskus.</div>
+          <button class="card-btn" onclick="showSection('umayyah')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="room-card fade-in" style="--card-accent:#A07850">
+          <div class="card-icon">📚</div>
+          <div class="card-title">Dinasti Abbasiyah</div>
+          <div class="card-desc">Zaman keemasan Islam dalam ilmu pengetahuan, sains, dan filsafat. Baghdad sebagai pusat dunia.</div>
+          <button class="card-btn" onclick="showSection('abbasiyah')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="room-card fade-in" style="--card-accent:#9B7CB5">
+          <div class="card-icon">🏰</div>
+          <div class="card-title">Kesultanan Islam Dunia</div>
+          <div class="card-desc">Turki Utsmani, Safawi, Mughal, dan Andalusia — kekuatan Islam yang mengubah wajah dunia.</div>
+          <button class="card-btn" onclick="showSection('kesultanan')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="room-card fade-in" style="--card-accent:#7A9E7E">
+          <div class="card-icon">🔬</div>
+          <div class="card-title">Perkembangan Ilmu Islam</div>
+          <div class="card-desc">Ilmuwan-ilmuwan muslim yang menerangi dunia: dari matematika, kedokteran, hingga filsafat.</div>
+          <button class="card-btn" onclick="showSection('ilmu')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="room-card fade-in" style="--card-accent:#8B6040">
+          <div class="card-icon">⛵</div>
+          <div class="card-title">Masuknya Islam ke Nusantara</div>
+          <div class="card-desc">Bagaimana Islam tiba di kepulauan Nusantara melalui jalur perdagangan dan para ulama yang bijaksana.</div>
+          <button class="card-btn" onclick="showSection('nusantara')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="room-card fade-in" style="--card-accent:#4A7550">
+          <div class="card-icon">🕌</div>
+          <div class="card-title">Wali Songo</div>
+          <div class="card-desc">Sembilan wali penyebar Islam di Jawa dengan metode dakwah yang damai, bijak, dan menyentuh hati.</div>
+          <button class="card-btn" onclick="showSection('wali')">Masuk Ruang →</button>
+        </div>
+
+        <!-- Card 9 -->
+        <div class="room-card fade-in" style="--card-accent:#7B9BB5">
+          <div class="card-icon">⭐</div>
+          <div class="card-title">Tokoh-Tokoh Islam Penting</div>
+          <div class="card-desc">Para pemimpin dan ilmuwan besar yang mengharumkan nama Islam di seluruh dunia sepanjang masa.</div>
+          <button class="card-btn" onclick="showSection('tokoh')">Masuk Ruang →</button>
+        </div>
+
+      </div><!-- /cards-grid -->
+    </div>
+  </section>
+
+  <!-- TIMELINE INTERAKTIF -->
+  <section id="timeline-section">
+    <div class="section-wrapper">
+      <span class="ornament">✦</span>
+      <h2 class="section-title">Timeline Sejarah Islam</h2>
+      <p class="section-subtitle">Perjalanan Islam dari Mekkah hingga Nusantara</p>
+
+      <div class="timeline">
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">570 M</div>
+            <div class="tl-title">Lahirnya Nabi Muhammad ﷺ</div>
+            <div class="tl-desc">Lahir di Mekkah pada 12 Rabiul Awwal, dari keluarga Bani Hasyim.</div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div style="flex:1"></div>
+          <div class="tl-content">
+            <div class="tl-year">610 M</div>
+            <div class="tl-title">Turunnya Wahyu Pertama</div>
+            <div class="tl-desc">Surah Al-Alaq turun di Gua Hira. Awal misi kenabian Muhammad ﷺ.</div>
+          </div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">622 M</div>
+            <div class="tl-title">Hijrah ke Madinah</div>
+            <div class="tl-desc">Peristiwa besar yang menjadi awal kalender Hijriyah dan titik balik perkembangan Islam.</div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div style="flex:1"></div>
+          <div class="tl-content">
+            <div class="tl-year">632 M</div>
+            <div class="tl-title">Wafatnya Nabi ﷺ</div>
+            <div class="tl-desc">Nabi wafat pada 12 Rabiul Awwal. Dilanjutkan kepemimpinan Khulafaur Rasyidin.</div>
+          </div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">661 M</div>
+            <div class="tl-title">Dinasti Umayyah Berdiri</div>
+            <div class="tl-desc">Muawiyah bin Abi Sufyan mendirikan Dinasti Umayyah berpusat di Damaskus.</div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div style="flex:1"></div>
+          <div class="tl-content">
+            <div class="tl-year">750 M</div>
+            <div class="tl-title">Dinasti Abbasiyah</div>
+            <div class="tl-desc">Era keemasan Islam: Baghdad menjadi pusat ilmu, sains, dan peradaban dunia.</div>
+          </div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">1299 M</div>
+            <div class="tl-title">Kekaisaran Utsmani</div>
+            <div class="tl-desc">Berdirinya Dinasti Utsmani yang akan menjadi kekuatan Islam terbesar hingga abad 20.</div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div style="flex:1"></div>
+          <div class="tl-content">
+            <div class="tl-year">Abad 7–13 M</div>
+            <div class="tl-title">Islam Masuk Nusantara</div>
+            <div class="tl-desc">Pedagang Arab, India, dan Persia membawa Islam ke pelabuhan-pelabuhan Nusantara.</div>
+          </div>
+        </div>
+
+        <div class="tl-item fade-in">
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-year">Abad 15–16 M</div>
+            <div class="tl-title">Wali Songo Berdakwah</div>
+            <div class="tl-desc">Sembilan wali menyebarkan Islam di Jawa dengan cara damai, seni, dan budaya lokal.</div>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+
+      </div><!-- /timeline -->
+    </div>
+  </section>
+
+</div><!-- /main-home -->
+
+<!-- ============================================================
+     MATERI SECTIONS (hidden by default)
+============================================================ -->
+
+<!-- ===== 1. NABI MUHAMMAD ﷺ ===== -->
+<div id="section-nabi" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="nabi-head">
+      <span class="arabic">مُحَمَّدٌ رَّسُولُ اللَّهِ</span>
+      <h2>Masa Nabi Muhammad ﷺ</h2>
+      <p>Sejarah hidup manusia paling mulia yang pernah berjalan di muka bumi</p>
+    </div>
+
+    <!-- Biodata -->
+    <div class="info-box fade-in">
+      <h3>📋 Biodata Singkat</h3>
+      <table class="bio-table">
+        <tr><td>Nama Lengkap</td><td>Muhammad bin Abdullah bin Abdul Muthalib</td></tr>
+        <tr><td>Lahir</td><td>12 Rabiul Awwal / 570 M, Mekkah</td></tr>
+        <tr><td>Wafat</td><td>12 Rabiul Awwal 11 H / 632 M, Madinah</td></tr>
+        <tr><td>Ayah</td><td>Abdullah bin Abdul Muthalib (wafat sebelum lahir)</td></tr>
+        <tr><td>Ibu</td><td>Aminah binti Wahab</td></tr>
+        <tr><td>Istri pertama</td><td>Khadijah binti Khuwailid RA</td></tr>
+        <tr><td>Julukan</td><td>Al-Amin (yang terpercaya), Al-Musthafa</td></tr>
+        <tr><td>Sebab wafat</td><td>Sakit yang dimulai setelah haji wada, demam tinggi dan melemah selama ±13 hari</td></tr>
+      </table>
+    </div>
+
+    <!-- Quote -->
+    <div class="quote-block fade-in">
+      <p>"Sesungguhnya aku diutus untuk menyempurnakan akhlak yang mulia."</p>
+      <cite>— Rasulullah ﷺ (HR. Ahmad)</cite>
+    </div>
+
+    <!-- Timeline Hidup -->
+    <div class="info-box fade-in">
+      <h3>📅 Timeline Hidup Nabi ﷺ</h3>
+      <div class="mini-tl">
+        <div class="mini-tl-item"><strong>570 M — Tahun Gajah</strong>Lahir di Mekkah. Ayahnya telah wafat sebelum beliau lahir. Disusui oleh Halimah As-Sa'diyah.</div>
+        <div class="mini-tl-item"><strong>576 M</strong>Ibunda Aminah wafat. Diasuh kakeknya Abdul Muthalib, lalu pamannya Abu Thalib.</div>
+        <div class="mini-tl-item"><strong>583 M (Usia 12 thn)</strong>Ikut berdagang ke Syam bersama Abu Thalib. Bertemu rahib Bahira yang melihat tanda kenabian.</div>
+        <div class="mini-tl-item"><strong>595 M (Usia 25 thn)</strong>Menikah dengan Khadijah RA, janda kaya yang mulia. Pernikahan bahagia dan harmonis selama 25 tahun.</div>
+        <div class="mini-tl-item"><strong>610 M (Usia 40 thn)</strong>Wahyu pertama turun di Gua Hira: Surah Al-Alaq 1–5. Awal kenabian.</div>
+        <div class="mini-tl-item"><strong>613 M</strong>Dakwah terang-terangan dimulai. Kaum Quraisy mulai memusuhi.</div>
+        <div class="mini-tl-item"><strong>619 M — Tahun Duka</strong>Istri tercinta Khadijah RA wafat. Paman pelindung Abu Thalib juga wafat.</div>
+        <div class="mini-tl-item"><strong>620 M</strong>Isra Mi'raj: perjalanan malam dari Masjidil Haram ke Masjidil Aqsha dan ke Sidratul Muntaha.</div>
+        <div class="mini-tl-item"><strong>622 M — Hijrah</strong>Berhijrah ke Madinah. Titik balik sejarah Islam. Awal kalender Hijriyah.</div>
+        <div class="mini-tl-item"><strong>624 M</strong>Perang Badar: kemenangan pertama kaum muslimin (313 vs 1000 orang).</div>
+        <div class="mini-tl-item"><strong>625 M</strong>Perang Uhud: kaum muslimin menderita kekalahan akibat sebagian pemanah meninggalkan posisi.</div>
+        <div class="mini-tl-item"><strong>627 M</strong>Perang Ahzab (Khandaq): musuh dikepung parit. Kemenangan strategi.</div>
+        <div class="mini-tl-item"><strong>628 M</strong>Perjanjian Hudaibiyah: gencatan senjata 10 tahun, membuka peluang dakwah lebih luas.</div>
+        <div class="mini-tl-item"><strong>630 M — Fathu Mekkah</strong>Mekkah dibebaskan tanpa pertumpahan darah. Pemaafan besar Nabi ﷺ kepada musuh-musuhnya.</div>
+        <div class="mini-tl-item"><strong>632 M — Haji Wada'</strong>Haji terakhir. Khutbah Wada' yang bersejarah. Wafat pada 12 Rabiul Awwal.</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- Sifat & Keunggulan -->
+      <div class="info-box fade-in">
+        <h3>✨ Sifat & Keunggulan Nabi ﷺ</h3>
+        <p><strong>Fisik:</strong> Berperawakan sedang, rambut hitam sedikit bergelombang, wajah bercahaya, senyum menawan, suara merdu.</p>
+        <p><strong>Akhlak:</strong> Jujur, amanah, sabar, pemaaf, dermawan, penyayang kepada seluruh makhluk.</p>
+        <p><strong>Sifat Wajib:</strong></p>
+        <ul>
+          <li>Shidiq (jujur)</li>
+          <li>Amanah (dapat dipercaya)</li>
+          <li>Tabligh (menyampaikan)</li>
+          <li>Fathanah (cerdas)</li>
+        </ul>
+      </div>
+
+      <!-- Fathu Mekkah -->
+      <div class="info-box fade-in">
+        <h3>🏆 Fathu Mekkah (630 M)</h3>
+        <p>Peristiwa terbesar dalam sejarah awal Islam. Nabi ﷺ memasuki Mekkah bersama 10.000 pasukan tanpa pertumpahan darah.</p>
+        <p>Yang paling menakjubkan: Nabi ﷺ memaafkan semua musuh yang pernah menyiksa umat Islam. <em>"Pergilah kalian, kalian bebas!"</em> — sabda Nabi kepada penduduk Mekkah.</p>
+        <p>Ka'bah dibersihkan dari 360 berhala. Azan berkumandang dari Ka'bah untuk pertama kalinya oleh Bilal bin Rabah.</p>
+      </div>
+    </div>
+
+    <!-- Khutbah Terakhir -->
+    <div class="info-box fade-in" style="border-left-color:var(--sage-dark)">
+      <h3>📜 Khutbah Wada' — Pesan Terakhir Nabi ﷺ</h3>
+      <p>Di Padang Arafah, 9 Dzulhijjah 10 H (632 M), di hadapan lebih dari 100.000 sahabat, Nabi ﷺ menyampaikan khutbah terakhirnya:</p>
+      <br>
+      <div class="quote-block" style="margin:0">
+        <p>"Wahai manusia, sesungguhnya darah kalian, harta kalian, dan kehormatan kalian adalah suci atas satu sama lain...
+        Aku tinggalkan dua hal kepada kalian: Al-Qur'an dan Sunnahku. Kalian tidak akan tersesat selama berpegang kepada keduanya..."</p>
+        <cite>— HR. Malik</cite>
+      </div>
+    </div>
+
+    <!-- Wafat -->
+    <div class="info-box fade-in" style="border-left-color:#C9A84C">
+      <h3>🌙 Wafatnya Rasulullah ﷺ</h3>
+      <p>Pada Senin, 12 Rabiul Awwal 11 H (8 Juni 632 M), Rasulullah ﷺ wafat di usia 63 tahun di rumah Aisyah RA, Madinah.</p>
+      <p>Sakit beliau dimulai setelah kembali dari Haji Wada'. Selama ±13 hari beliau menderita demam tinggi yang terus melemahkan tubuhnya.</p>
+      <p>Kata-kata terakhir: <em>"Allahumma ar-rafiqal a'laa…"</em> (Ya Allah, (menuju) Rafiq yang Maha Tinggi...)</p>
+      <p>Kabar wafatnya mengguncang seluruh Madinah. Umar bin Khattab menolak mempercayainya hingga Abu Bakar mengingatkan ayat Al-Qur'an: <em>"Muhammad itu tidak lain hanyalah seorang Rasul…"</em> (QS. Ali Imran: 144)</p>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>"Engkau adalah cahaya yang menerangi kegelapan. Engkau adalah Nabi kami, pemimpin kami, suri teladan kami."</p>
+      <cite>— Shalawat & kecintaan Umat Islam sepanjang masa</cite>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 2. KHULAFAUR RASYIDIN ===== -->
+<div id="section-khulafa" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#4A7550,#7A9E7E)">
+      <h2>👑 Khulafaur Rasyidin</h2>
+      <p>Empat Khalifah yang dipilih — Penerus kepemimpinan Nabi ﷺ (632–661 M)</p>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>📌 Pengertian Khulafaur Rasyidin</h3>
+      <p>Khulafaur Rasyidin berarti "Para Khalifah yang mendapat petunjuk." Mereka adalah empat sahabat Nabi yang memimpin umat Islam setelah wafatnya Rasulullah ﷺ, dipilih secara musyawarah, bukan warisan.</p>
+    </div>
+
+    <!-- Abu Bakar -->
+    <div class="person-card fade-in">
+      <h3>Abu Bakar Ash-Shiddiq RA</h3>
+      <div class="period">Khalifah I · 632–634 M (2 tahun)</div>
+      <table class="bio-table">
+        <tr><td>Nama Asli</td><td>Abdullah bin Abi Quhafah</td></tr>
+        <tr><td>Wafat</td><td>634 M · Usia 63 tahun · Sakit demam</td></tr>
+      </table>
+      <p class="mt-1"><strong>Pencapaian:</strong> Memerangi kemurtadan (Riddah), mengumpulkan Al-Qur'an atas saran Umar, memulai ekspansi ke Persia dan Romawi.</p>
+      <p><strong>Tantangan:</strong> Banyak suku Arab murtad setelah Nabi wafat. Abu Bakar dengan tegas memerangi mereka demi menjaga keutuhan Islam.</p>
+      <p><strong>Sifat unggulan:</strong> As-Shiddiq (pembenaran penuh), dermawan, tenang dalam krisis.</p>
+    </div>
+
+    <!-- Umar -->
+    <div class="person-card fade-in">
+      <h3>Umar bin Khattab RA</h3>
+      <div class="period">Khalifah II · 634–644 M (10 tahun)</div>
+      <table class="bio-table">
+        <tr><td>Nama Asli</td><td>Umar bin Khattab bin Nufail</td></tr>
+        <tr><td>Wafat</td><td>644 M · Dibunuh Abu Lu'lu'ah (budak Persia) saat shalat Subuh</td></tr>
+      </table>
+      <p class="mt-1"><strong>Pencapaian:</strong> Menaklukkan Persia dan Mesir. Membangun sistem pemerintahan: baitul mal, gaji tentara, sistem provinsi. Mendirikan kota Basrah dan Kufah. Menetapkan kalender Hijriyah.</p>
+      <p><strong>Sifat unggulan:</strong> Tegas, adil, zuhud. Terkenal tidur di masjid dengan baju bertambal meski menjadi pemimpin kekhalifahan terbesar.</p>
+    </div>
+
+    <!-- Utsman -->
+    <div class="person-card fade-in">
+      <h3>Utsman bin Affan RA</h3>
+      <div class="period">Khalifah III · 644–656 M (12 tahun)</div>
+      <table class="bio-table">
+        <tr><td>Nama Asli</td><td>Utsman bin Affan bin Abi Al-Ash</td></tr>
+        <tr><td>Wafat</td><td>656 M · Dibunuh pemberontak saat membaca Al-Qur'an di rumahnya</td></tr>
+      </table>
+      <p class="mt-1"><strong>Pencapaian:</strong> Pembukuan/kodifikasi Al-Qur'an standar (Mushaf Utsmani). Memperluas wilayah hingga Afrika Utara dan Asia Tengah. Membangun armada laut Islam pertama.</p>
+      <p><strong>Sifat unggulan:</strong> Pemalu, dermawan luar biasa — pernah membiayai sepertiga ekspedisi Tabuk dari kantong pribadi. Menikahi dua putri Nabi ﷺ (Ruqayyah lalu Ummu Kultsum).</p>
+    </div>
+
+    <!-- Ali -->
+    <div class="person-card fade-in">
+      <h3>Ali bin Abi Thalib RA</h3>
+      <div class="period">Khalifah IV · 656–661 M (5 tahun)</div>
+      <table class="bio-table">
+        <tr><td>Nama Asli</td><td>Ali bin Abi Thalib bin Abdul Muthalib</td></tr>
+        <tr><td>Wafat</td><td>661 M · Dibunuh Ibnu Muljam (kaum Khawarij) saat shalat Subuh di Kufah</td></tr>
+      </table>
+      <p class="mt-1"><strong>Pencapaian:</strong> Menantu dan sepupu Nabi ﷺ. Salah satu orang pertama masuk Islam. Dikenal keberaniannya dalam berbagai peperangan di sisi Nabi.</p>
+      <p><strong>Tantangan:</strong> Masa kepemimpinannya diwarnai perpecahan: Perang Jamal (melawan Aisyah RA), Perang Shiffin (melawan Muawiyah). Berakhir dengan arbitrasi dan munculnya kaum Khawarij.</p>
+      <p><strong>Sifat unggulan:</strong> Sangat cerdas, fasih, berani. Pintu gerbang ilmu — Nabi bersabda: "Aku adalah kota ilmu dan Ali adalah pintunya."</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 3. DINASTI UMAYYAH ===== -->
+<div id="section-umayyah" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#2A4A6A,#7B9BB5)">
+      <h2>⚔️ Dinasti Umayyah</h2>
+      <p>661–750 M · Berpusat di Damaskus · Kekaisaran Islam Terluas Pertama</p>
+    </div>
+
+    <div class="two-col">
+      <div class="info-box fade-in">
+        <h3>🏛️ Pendiri & Pusat</h3>
+        <p><strong>Pendiri:</strong> Muawiyah bin Abi Sufyan RA</p>
+        <p><strong>Pusat:</strong> Damaskus, Suriah</p>
+        <p><strong>Masa:</strong> 661–750 M (± 90 tahun)</p>
+        <p><strong>Wilayah:</strong> Dari Spanyol (Andalusia) di barat hingga Sindh (Pakistan) di timur — terluas dalam sejarah Islam.</p>
+      </div>
+      <div class="info-box fade-in">
+        <h3>📈 Perkembangan</h3>
+        <ul>
+          <li>Arabisasi administrasi pemerintahan</li>
+          <li>Membangun pos-pos jalan dan sistem komunikasi</li>
+          <li>Arsitektur: Masjid Umayyah Damaskus, Dome of the Rock Yerusalem</li>
+          <li>Penaklukan Spanyol (711 M) oleh Thariq bin Ziyad</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Khalifah Penting -->
+    <h3 class="section-title" style="font-size:1.5rem;text-align:left;margin:2rem 0 1rem">Khalifah Penting</h3>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">Muawiyah bin Abi Sufyan (661–680 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p><strong>Pendiri dinasti.</strong> Sahabat Nabi, gubernur Suriah. Memindahkan ibu kota ke Damaskus dan mendirikan sistem herediter (kekhalifahan turun-temurun). Ahli strategi dan diplomasi.</p>
+      </div>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">Abdul Malik bin Marwan (685–705 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p>Merenovasi administrasi, mencetak mata uang Islam pertama (dinar emas & dirham perak), menjadikan bahasa Arab sebagai bahasa resmi negara. Membangun Dome of the Rock (Kubah Batu) di Yerusalem.</p>
+      </div>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">Al-Walid I (705–715 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p>Masa ekspansi terbesar: Thariq bin Ziyad menaklukkan Spanyol (711 M), Muhammad bin Qasim menaklukkan Sindh (India). Membangun Masjid Agung Damaskus (Umayyad Mosque).</p>
+      </div>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">Umar bin Abdul Aziz / Umar II (717–720 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p><em>Khalifah terzuhud Bani Umayyah.</em> Mengembalikan tanah rakyat, menghapus pajak tidak adil, menyetarakan hak Arab dan non-Arab. Masa pemerintahannya (2,5 tahun) sangat dicintai rakyat — bahkan binatang liar pun hidup aman, kata sejarawan.</p>
+      </div>
+    </div>
+
+    <div class="info-box fade-in mt-2">
+      <h3>💔 Keruntuhan</h3>
+      <p>Dinasti Umayyah runtuh tahun 750 M akibat: ketidakpuasan kelompok Mawali (non-Arab yang direndahkan), pemberontakan Abbasiyah yang didukung Persia dan golongan yang merasa dizalimi, serta melemahnya khalifah-khalifah akhir.</p>
+      <p>Satu-satunya yang selamat: Abd ar-Rahman I, yang melarikan diri ke Spanyol dan mendirikan Emirat Cordoba.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 4. DINASTI ABBASIYAH ===== -->
+<div id="section-abbasiyah" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#3A2010,#A07850)">
+      <h2>📚 Dinasti Abbasiyah</h2>
+      <p>750–1258 M · Baghdad, Irak · Zaman Keemasan Islam</p>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>🏙️ Baghdad — Pusat Dunia</h3>
+      <p>Khalifah Al-Mansur mendirikan Baghdad pada 762 M sebagai <em>Madinat as-Salam</em> (Kota Perdamaian). Dalam waktu singkat Baghdad menjadi kota terbesar dan terkaya di dunia, dengan populasi mencapai 1 juta jiwa.</p>
+      <p>Di sini berdiri <strong>Baitul Hikmah</strong> (House of Wisdom) — perpustakaan dan lembaga riset terbesar yang menerjemahkan karya Yunani, Persia, dan India ke dalam bahasa Arab.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="info-box fade-in">
+        <h3>👑 Khalifah Terkenal</h3>
+        <div class="mini-tl">
+          <div class="mini-tl-item"><strong>Abu Abbas As-Saffah (750–754 M)</strong>Pendiri dinasti. Memimpin penggulingan Umayyah.</div>
+          <div class="mini-tl-item"><strong>Harun Ar-Rasyid (786–809 M)</strong>Masa puncak kejayaan. Kisah 1001 Malam terinspirasi zamannya.</div>
+          <div class="mini-tl-item"><strong>Al-Ma'mun (813–833 M)</strong>Mendirikan Baitul Hikmah. Penerjemahan besar-besaran karya Yunani.</div>
+          <div class="mini-tl-item"><strong>Al-Mutawakkil (847–861 M)</strong>Khalifah terakhir yang berkuasa penuh sebelum kekuatan jatuh ke tangan militer Turki.</div>
+        </div>
+      </div>
+      <div class="info-box fade-in">
+        <h3>🔬 Perkembangan Sains</h3>
+        <ul>
+          <li>Matematika & Aljabar</li>
+          <li>Astronomi & peta bintang</li>
+          <li>Kedokteran & farmasi</li>
+          <li>Kimia & optik</li>
+          <li>Filsafat & logika</li>
+          <li>Geografi & peta dunia</li>
+          <li>Sejarah & sastra</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Ilmuwan -->
+    <h3 class="section-title" style="font-size:1.5rem;text-align:left;margin:2rem 0 1rem">✨ Ilmuwan Muslim Terkenal</h3>
+
+    <div class="tokoh-card fade-in">
+      <h3>Al-Khawarizmi (780–850 M)</h3>
+      <div class="period">Matematikawan & Astronom</div>
+      <p>Penemu aljabar (al-jabr). Bukunya <em>Hisab al-jabr wal-muqabala</em> menjadi dasar matematika modern. Nama "algoritma" berasal dari nama latinnya: Algoritmi. Memperkenalkan angka Hindu-Arab ke dunia Barat.</p>
+    </div>
+
+    <div class="tokoh-card fade-in">
+      <h3>Ibnu Sina / Avicenna (980–1037 M)</h3>
+      <div class="period">Dokter, Filsuf, Ilmuwan</div>
+      <p>Menulis <em>Al-Qanun fit-Thibb</em> (Canon of Medicine) — dipakai sebagai buku teks kedokteran di Eropa hingga abad 17. Menggabungkan filsafat Aristoteles dengan pemikiran Islam. Disebut "Bapak Kedokteran Modern".</p>
+    </div>
+
+    <div class="tokoh-card fade-in">
+      <h3>Al-Farabi (872–950 M)</h3>
+      <div class="period">Filsuf & Musikolog</div>
+      <p>Dijuluki "Guru Kedua" (setelah Aristoteles). Menggabungkan filsafat Yunani dengan Islam. Menulis tentang musik, logika, etika, dan teori kota ideal. Karyanya mempengaruhi Ibnu Sina dan Ibnu Rushd.</p>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>💔 Keruntuhan (1258 M)</h3>
+      <p>Dinasti Abbasiyah hancur ketika pasukan Mongol di bawah Hulagu Khan menyerang Baghdad pada 1258 M. Khalifah Al-Musta'sim dibunuh, jutaan buku di Baitul Hikmah dibuang ke Sungai Tigris sampai air sungai berubah warna hitam dari tinta.</p>
+      <p>Kejadian ini adalah salah satu bencana terbesar dalam sejarah peradaban manusia.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 5. KESULTANAN ISLAM DUNIA ===== -->
+<div id="section-kesultanan" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#5A2A7A,#9B7CB5)">
+      <h2>🏰 Kesultanan Islam Dunia</h2>
+      <p>Kekuatan-kekuatan besar Islam yang mengubah peta sejarah dunia</p>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">🇹🇷 Kekaisaran Turki Utsmani (1299–1924 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p><strong>Pendiri:</strong> Utsman I (Osman Ghazi)</p>
+        <p><strong>Pusat:</strong> Bursa → Edirne → Konstantinopel (Istanbul)</p>
+        <p><strong>Puncak kejayaan:</strong> Abad 16 di bawah Sultan Suleiman Al-Qanuni</p>
+        <p><strong>Wilayah:</strong> Eropa Tenggara, Timur Tengah, Afrika Utara — terluas ketiga dalam sejarah dunia</p>
+        <p><strong>Tokoh penting:</strong> Muhammad Al-Fatih (penakluk Konstantinopel 1453), Suleiman Al-Qanuni</p>
+        <p><strong>Runtuh:</strong> 1924 M setelah Perang Dunia I, digantikan Republik Turki oleh Mustafa Kemal Atatürk</p>
+      </div>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">🇮🇷 Kekaisaran Safawi (1501–1736 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p><strong>Pendiri:</strong> Shah Ismail I</p>
+        <p><strong>Pusat:</strong> Tabriz, Persia (Iran)</p>
+        <p>Menjadikan Islam Syiah sebagai agama resmi Persia. Masa kejayaan di bawah Shah Abbas I (1588–1629). Dikenal karena seni arsitektur Isfahan yang luar biasa indah.</p>
+        <p>Sering berkonflik dengan Utsmani (Perang Chaldiran 1514). Runtuh 1736 di tangan Nadir Shah.</p>
+      </div>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">🇮🇳 Kekaisaran Mughal (1526–1857 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p><strong>Pendiri:</strong> Babur (keturunan Timur Lenk dan Jengis Khan)</p>
+        <p><strong>Pusat:</strong> Agra, Delhi (India)</p>
+        <p>Membangun Taj Mahal (Shah Jahan, 1632–1653) — simbol cinta dan kejayaan arsitektur Islam. Berkuasa atas mayoritas anak benua India. Dikenal toleransi agama di bawah Akbar Agung.</p>
+        <p>Runtuh setelah kolonialisasi Inggris menggulingkan Sultan Bahadur Shah Zafar II pada 1857 M.</p>
+      </div>
+    </div>
+
+    <div class="accordion fade-in">
+      <button class="acc-header" onclick="toggleAcc(this)">🇪🇸 Andalusia / Al-Andalus (711–1492 M) <span class="acc-icon">+</span></button>
+      <div class="acc-body">
+        <p><strong>Penakluk pertama:</strong> Thariq bin Ziyad (711 M)</p>
+        <p><strong>Pusat:</strong> Cordoba, Granada, Sevilla</p>
+        <p>Selama ±800 tahun, Spanyol menjadi pusat ilmu dunia. Cordoba memiliki perpustakaan 400.000 buku saat Eropa dalam kegelapan. Istana Alhambra di Granada adalah puncak arsitektur Islam di Barat.</p>
+        <p>Berakhir 1492 M saat Granada jatuh ke tangan Ferdinand dan Isabella (Reconquista). Umat Islam dan Yahudi diusir atau dipaksa masuk Katolik.</p>
+      </div>
+    </div>
+
+    <!-- Tokoh Besar -->
+    <div class="two-col mt-2">
+      <div class="person-card fade-in">
+        <h3>Salahuddin Al-Ayyubi</h3>
+        <div class="period">1138–1193 M · Sultan Mesir & Suriah</div>
+        <p><strong>Julukan:</strong> Singa Islam (Asad al-Islam)</p>
+        <p>Merebut kembali Yerusalem dari pasukan Salib (1187 M) dengan kemenangan Perang Hittin. Yang paling mengejutkan musuh: ia membebaskan tawanan Kristen tanpa pembantaian, mengikuti kode kehormatan tertinggi. Musuhnya sendiri — Raja Richard Inggris — memuji keagungan karakternya.</p>
+      </div>
+      <div class="person-card fade-in">
+        <h3>Muhammad Al-Fatih</h3>
+        <div class="period">1432–1481 M · Sultan Utsmani ke-7</div>
+        <p><strong>Julukan:</strong> Al-Fatih (Sang Penakluk)</p>
+        <p>Menaklukkan Konstantinopel pada usia 21 tahun (29 Mei 1453 M), menggenapi sabda Nabi ﷺ 800 tahun sebelumnya. Ia menguasai 7 bahasa, hafal Al-Qur'an, dan ahli matematika. Dikenal menjaga keselamatan penduduk Kristen setelah penaklukan.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 6. ILMU ISLAM ===== -->
+<div id="section-ilmu" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#2A5A30,#7A9E7E)">
+      <h2>🔬 Perkembangan Ilmu Islam</h2>
+      <p>Ketika dunia Islam menjadi pusat peradaban ilmu pengetahuan dunia</p>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>🌟 Era Keemasan Islam (750–1258 M)</h3>
+      <p>Selama lima abad, dunia Islam menjadi pemimpin peradaban. Para ilmuwan muslim menerjemahkan, mengembangkan, dan menemukan ilmu baru dalam matematika, astronomi, kedokteran, kimia, optik, dan banyak lagi. Warisan mereka menjadi fondasi Renaisans Eropa.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="info-box fade-in">
+        <h3>➕ Matematika</h3>
+        <ul>
+          <li>Al-Khawarizmi — Aljabar & Algoritma</li>
+          <li>Al-Biruni — Trigonometri & Geografi</li>
+          <li>Umar Khayyam — Solusi persamaan kubik</li>
+          <li>Ibnu Al-Haytham — Optik & Geometri</li>
+        </ul>
+      </div>
+      <div class="info-box fade-in">
+        <h3>🏥 Kedokteran</h3>
+        <ul>
+          <li>Ibnu Sina — Canon of Medicine</li>
+          <li>Al-Razi (Rhazes) — Cacar & Campak</li>
+          <li>Ibnu Rushd (Averroes) — Komentator Aristoteles</li>
+          <li>Az-Zahrawi — Bedah & instrumen operasi</li>
+        </ul>
+      </div>
+      <div class="info-box fade-in">
+        <h3>⭐ Astronomi</h3>
+        <ul>
+          <li>Al-Battani — Tabel trigonometri astronomi</li>
+          <li>Al-Farghani — Astronomi &amp; geografi</li>
+          <li>Ibnu Yunus — Tabel Hakimite (paling akurat abad 10)</li>
+          <li>Lebih dari 200 nama bintang dari bahasa Arab</li>
+        </ul>
+      </div>
+      <div class="info-box fade-in">
+        <h3>🧪 Kimia & Fisika</h3>
+        <ul>
+          <li>Jabir bin Hayyan (Geber) — Bapak Kimia Modern</li>
+          <li>Al-Kindi — Optik & Farmakologi</li>
+          <li>Ibnu Al-Haytham — Teori cahaya & kamera obscura</li>
+          <li>Al-Razi — Distilasi & asam klorida</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>"Tuntutlah ilmu, walau hingga ke negeri Cina."</p>
+      <cite>— Hadits Nabi Muhammad ﷺ</cite>
+    </div>
+
+    <!-- Imam -->
+    <h3 class="section-title" style="font-size:1.5rem;text-align:left;margin:2rem 0 1rem">📖 Imam Hadits & Fiqih</h3>
+
+    <div class="two-col">
+      <div class="tokoh-card fade-in">
+        <h3>Imam Bukhari (810–870 M)</h3>
+        <div class="period">Ulama Hadits Terbesar</div>
+        <p>Menyusun Shahih Bukhari — kitab hadits paling shahih setelah Al-Qur'an. Mengumpulkan 600.000 hadits dan memilih 7.275 yang shahih melalui seleksi ketat. Memiliki hafalan luar biasa — mampu hafal 100.000 hadits beserta sanadnya.</p>
+      </div>
+      <div class="tokoh-card fade-in">
+        <h3>Imam Syafi'i (767–820 M)</h3>
+        <div class="period">Pendiri Madzhab Syafi'i</div>
+        <p>Pendiri ilmu Ushul Fiqh (metodologi hukum Islam). Menulis Al-Risalah — karya pertama tentang metodologi hukum Islam. Mazhab Syafi'i adalah madzhab terbanyak pengikutnya di dunia, termasuk di Indonesia.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 7. NUSANTARA ===== -->
+<div id="section-nusantara" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#6A3A10,#C9A84C)">
+      <h2>⛵ Masuknya Islam ke Nusantara</h2>
+      <p>Perjalanan panjang Islam dari Arab hingga ke kepulauan Nusantara yang indah</p>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>🗺️ Teori Masuknya Islam</h3>
+      <p>Para sejarawan memiliki beberapa teori tentang bagaimana Islam sampai ke Nusantara:</p>
+      <ul>
+        <li><strong>Teori Gujarat (India):</strong> Islam dibawa pedagang dari Gujarat, India. Didukung kesamaan corak seni Islam Nusantara dengan Gujarat.</li>
+        <li><strong>Teori Arab:</strong> Islam langsung dari Arabia melalui pedagang Arab. Didukung bukti hubungan perdagangan Arab-Nusantara sejak abad 7 M.</li>
+        <li><strong>Teori Persia:</strong> Islam dibawa orang Persia, didukung kesamaan tradisi tertentu.</li>
+        <li><strong>Teori Cina:</strong> Dibawa oleh Muslim Tionghoa (Cheng Ho dll.) ke Jawa dan sekitarnya.</li>
+      </ul>
+    </div>
+
+    <div class="two-col">
+      <div class="info-box fade-in">
+        <h3>🕌 Kerajaan Islam Awal</h3>
+        <div class="mini-tl">
+          <div class="mini-tl-item"><strong>Kerajaan Perlak (840 M)</strong>Kerajaan Islam tertua di Nusantara — di Aceh Timur.</div>
+          <div class="mini-tl-item"><strong>Kerajaan Samudera Pasai (1267 M)</strong>Kerajaan Islam besar pertama di Sumatera. Dikunjungi Marco Polo (1292) & Ibnu Battuta (1345).</div>
+          <div class="mini-tl-item"><strong>Kesultanan Malaka (1400 M)</strong>Pusat perdagangan Islam di Asia Tenggara.</div>
+          <div class="mini-tl-item"><strong>Demak (1475 M)</strong>Kerajaan Islam pertama di Jawa. Didukung Wali Songo.</div>
+          <div class="mini-tl-item"><strong>Ternate & Tidore (abad 14)</strong>Pusat rempah dan penyebaran Islam di Maluku.</div>
+        </div>
+      </div>
+      <div class="info-box fade-in">
+        <h3>🤝 Cara Penyebaran Damai</h3>
+        <ul>
+          <li><strong>Perdagangan:</strong> Pedagang muslim menikahi penduduk lokal, membawa serta nilai-nilai Islam</li>
+          <li><strong>Pernikahan:</strong> Raja/bangsawan menikahi keturunan pedagang Arab/Gujarat</li>
+          <li><strong>Pendidikan:</strong> Pesantren dan madrasah sebagai pusat ilmu</li>
+          <li><strong>Seni Budaya:</strong> Wayang, gamelan, dan kesenian digunakan sebagai media dakwah</li>
+          <li><strong>Tasawuf:</strong> Ajaran sufi yang lembut dan dekat dengan tradisi lokal</li>
+          <li><strong>Politik:</strong> Penguasa masuk Islam, rakyat mengikuti</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote-block fade-in">
+      <p>"Islam masuk ke Nusantara bukan dengan pedang, melainkan dengan akhlak mulia, senyum para pedagang, dan kearifan para ulama."</p>
+      <cite>— Sejarawan Prof. Hamka</cite>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>🛶 Jalur Perdagangan Islam ke Nusantara</h3>
+      <p><strong>Rute Barat:</strong> Arab → Teluk Persia → India (Gujarat, Malabar) → Selat Malaka → Sumatera → Jawa → Maluku</p>
+      <p><strong>Rute Timur:</strong> Cina (pedagang Muslim Tionghoa) → Selat Malaka → Jawa → Kalimantan → Sulawesi → Maluku</p>
+      <p>Pelabuhan-pelabuhan utama: Pasai, Malaka, Demak, Tuban, Gresik, Banten — menjadi pusat penyebaran Islam di Nusantara.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 8. WALI SONGO ===== -->
+<div id="section-wali" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#1A4A20,#4A7550,#7A9E7E)">
+      <h2>🕌 Wali Songo</h2>
+      <p>Sembilan Wali Penyebar Islam di Jawa — Dakwah Damai dengan Kebijaksanaan</p>
+    </div>
+
+    <div class="info-box fade-in">
+      <h3>🌿 Tentang Wali Songo</h3>
+      <p><em>Wali Songo</em> artinya "Sembilan Wali." Mereka adalah ulama-ulama besar yang menyebarkan Islam di Jawa dan sebagian Nusantara pada abad 14–16 M dengan metode damai, mengintegrasikan nilai Islam dengan budaya Jawa.</p>
+      <p>Mereka menggunakan kesenian (gamelan, wayang, tembang), perdagangan, dan pendidikan pesantren sebagai media dakwah — bukan paksaan atau kekerasan.</p>
+    </div>
+
+    <div class="wali-grid">
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Gresik</h3>
+        <div class="nama-asli">Maulana Malik Ibrahim · Wafat: 1419 M</div>
+        <p><strong>Daerah:</strong> Gresik, Jawa Timur</p>
+        <p><strong>Metode:</strong> Perdagangan & pengobatan gratis. Mendirikan pesantren pertama di Jawa. Berasal dari Asia Tengah / Persia.</p>
+        <p><strong>Ciri khas:</strong> Pendekatan sosial-humanis. Dikenal sebagai "dokter rakyat" yang mengobati tanpa biaya.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Ampel</h3>
+        <div class="nama-asli">Raden Rahmat · Wafat: 1481 M</div>
+        <p><strong>Daerah:</strong> Ampel, Surabaya</p>
+        <p><strong>Metode:</strong> Pendidikan pesantren, pernikahan strategis dengan putri bangsawan Majapahit.</p>
+        <p><strong>Ciri khas:</strong> Pemimpin de facto Wali Songo. Mendirikan Masjid Ampel yang masih berdiri hingga kini. Ayah Sunan Bonang dan Sunan Drajat.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Bonang</h3>
+        <div class="nama-asli">Raden Maulana Makdum Ibrahim · Wafat: 1525 M</div>
+        <p><strong>Daerah:</strong> Tuban, Jawa Timur</p>
+        <p><strong>Metode:</strong> Gamelan & musik. Menciptakan tembang <em>Tombo Ati</em> yang terkenal. Menggubah instrumen bonang.</p>
+        <p><strong>Ciri khas:</strong> Seniman dakwah. Memadukan seni musik Jawa dengan nilai-nilai Islam.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Drajat</h3>
+        <div class="nama-asli">Raden Syarifuddin / Raden Qasim · Wafat: 1522 M</div>
+        <p><strong>Daerah:</strong> Drajat, Lamongan</p>
+        <p><strong>Metode:</strong> Santunan sosial — memberi makan, pakaian, tempat tinggal kepada fakir miskin.</p>
+        <p><strong>Ciri khas:</strong> "Wali penyantun." Menciptakan tembang Pangkur. Dakwah melalui kepedulian sosial.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Kudus</h3>
+        <div class="nama-asli">Ja'far Shadiq · Wafat: 1550 M</div>
+        <p><strong>Daerah:</strong> Kudus, Jawa Tengah</p>
+        <p><strong>Metode:</strong> Menghormati tradisi Hindu-Buddha. Tidak menyembelih sapi untuk menghormati umat Hindu (tradisi berlanjut hingga kini).</p>
+        <p><strong>Ciri khas:</strong> Pernah belajar di Palestina. Membangun Masjid Menara Kudus bergaya Hindu-Islam (menara berbentuk candi).</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Kalijaga</h3>
+        <div class="nama-asli">Raden Said · Wafat: ~1580 M</div>
+        <p><strong>Daerah:</strong> Demak, seluruh Jawa</p>
+        <p><strong>Metode:</strong> Wayang kulit, tembang, seni. Menciptakan baju takwa (baju koko), bedug masjid, gamelan Sekaten.</p>
+        <p><strong>Ciri khas:</strong> Paling kreatif dan paling lama hidup di antara Wali Songo. "Wali Rakyat" yang paling dicintai.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Giri</h3>
+        <div class="nama-asli">Raden Paku / Muhammad Ainul Yaqin · Wafat: 1506 M</div>
+        <p><strong>Daerah:</strong> Giri, Gresik</p>
+        <p><strong>Metode:</strong> Pendidikan pesantren, mainan anak-anak (permainan Jelungan, Jamuran) sebagai media dakwah.</p>
+        <p><strong>Ciri khas:</strong> Pesantrennya menjadi pusat keilmuan. Pengaruhnya menyebar hingga Maluku, NTB, dan Kalimantan.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Muria</h3>
+        <div class="nama-asli">Raden Umar Said · Wafat: ~1551 M</div>
+        <p><strong>Daerah:</strong> Gunung Muria, Kudus</p>
+        <p><strong>Metode:</strong> Dakwah di pedesaan, tani, nelayan. Menciptakan tembang Sinom dan Kinanthi.</p>
+        <p><strong>Ciri khas:</strong> Anak Sunan Kalijaga. Memilih dakwah di kalangan rakyat biasa, bukan bangsawan. Maqamnya di puncak Gunung Muria.</p>
+      </div>
+
+      <div class="wali-card fade-in">
+        <h3>Sunan Gunung Jati</h3>
+        <div class="nama-asli">Syarif Hidayatullah · Wafat: 1570 M</div>
+        <p><strong>Daerah:</strong> Cirebon & Banten, Jawa Barat</p>
+        <p><strong>Metode:</strong> Diplomasi politik, pernikahan, dan pendidikan. Mendirikan Kesultanan Cirebon dan membantu berdirinya Kesultanan Banten.</p>
+        <p><strong>Ciri khas:</strong> Keturunan Raja Mesir & Putri Prabu Siliwangi. Penyebar Islam paling berpengaruh di Jawa Barat.</p>
+      </div>
+
+    </div><!-- /wali-grid -->
+
+  </div>
+</div>
+
+<!-- ===== 9. TOKOH PENTING ===== -->
+<div id="section-tokoh" class="materi-section">
+  <div class="section-wrapper">
+    <button class="back-btn" onclick="showHome()">← Kembali ke Beranda</button>
+
+    <div class="sec-head" style="background:linear-gradient(135deg,#1A3A5A,#7B9BB5)">
+      <h2>⭐ Tokoh-Tokoh Islam Penting</h2>
+      <p>Para pemimpin, ilmuwan, dan ulama besar yang mengharumkan Islam</p>
+    </div>
+
+    <div class="tokoh-card fade-in" style="border-top-color:var(--gold)">
+      <h3 style="color:var(--gold)">Salahuddin Al-Ayyubi (1138–1193 M)</h3>
+      <div class="period">Pahlawan Islam · Sultan Mesir dan Suriah</div>
+      <p><strong>Lahir:</strong> Tikrit, Irak · <strong>Wafat:</strong> Damaskus, 1193 M (57 tahun)</p>
+      <p><strong>Perjuangan:</strong> Menyatukan Mesir dan Suriah, merebut kembali Yerusalem dari Tentara Salib (1187 M) di Perang Hittin — tanpa pertumpahan darah berlebihan.</p>
+      <p><strong>Kontribusi:</strong> Mendirikan Dinasti Ayyubiyah. Membangun Benteng Kairo. Menghidupkan kembali madrasah-madrasah Islam di Mesir dan Suriah.</p>
+      <p><strong>Karakter:</strong> Musuhnya sendiri memuji keagungan akhlaknya. Saat merebut Yerusalem, ia membebaskan tawanan Kristen dan melarang pembantaian — berbanding terbalik dengan penaklukan Tentara Salib 1099 yang membantai habis penduduk Muslim dan Yahudi.</p>
+      <div style="margin-top:.8rem"><span class="tag">Pahlawan</span><span class="tag">Diplomat</span><span class="tag">Strategi Militer</span><span class="tag">Adil</span></div>
+    </div>
+
+    <div class="tokoh-card fade-in" style="border-top-color:var(--sage)">
+      <h3 style="color:var(--sage-dark)">Muhammad Al-Fatih (1432–1481 M)</h3>
+      <div class="period">Sultan Utsmani ke-7 · Penakluk Konstantinopel</div>
+      <p><strong>Lahir:</strong> Edirne, Turki · <strong>Wafat:</strong> 1481 M (49 tahun) — diduga diracun</p>
+      <p><strong>Perjuangan:</strong> Menaklukkan Konstantinopel (1453 M) pada usia 21 tahun, menggenapi sabda Rasulullah ﷺ yang diucapkan 800 tahun sebelumnya.</p>
+      <p><strong>Kontribusi:</strong> Menjadikan Hagia Sophia sebagai masjid. Membangun Istanbul sebagai ibu kota yang agung. Menguasai 7 bahasa: Arab, Persia, Turki, Yunani, Latin, Serbia, dan Ibrani.</p>
+      <p><strong>Karakter:</strong> Hafal Al-Qur'an. Tidak pernah meninggalkan shalat lima waktu sejak baligh. Cendekiawan dan penyair. Setelah menaklukkan kota, ia langsung shalat di Hagia Sophia.</p>
+      <div style="margin-top:.8rem"><span class="tag">Pemimpin</span><span class="tag">Hafiz</span><span class="tag">Poliglot</span><span class="tag">Strategi</span></div>
+    </div>
+
+    <div class="tokoh-card fade-in" style="border-top-color:var(--dusty-blue)">
+      <h3>Ibnu Sina / Avicenna (980–1037 M)</h3>
+      <div class="period">Dokter & Filsuf Terbesar Dunia Islam</div>
+      <p><strong>Lahir:</strong> Bukhara, Uzbekistan · <strong>Wafat:</strong> Hamadan, Iran (57 tahun)</p>
+      <p><strong>Biodata:</strong> Hafal Al-Qur'an pada usia 10 tahun. Menguasai kedokteran pada usia 16 tahun. Menulis 450 karya ilmiah.</p>
+      <p><strong>Kontribusi:</strong> Al-Qanun fit-Thibb (Canon of Medicine) — dipakai sebagai buku teks di universitas Eropa hingga abad 17. Memperkenalkan karantina untuk mencegah penyakit menular. Menemukan bahwa tuberkulosis menular melalui udara.</p>
+      <div style="margin-top:.8rem"><span class="tag">Kedokteran</span><span class="tag">Filsafat</span><span class="tag">Matematika</span><span class="tag">Astronomi</span></div>
+    </div>
+
+    <div class="tokoh-card fade-in" style="border-top-color:var(--soft-brown)">
+      <h3>Al-Khawarizmi (780–850 M)</h3>
+      <div class="period">Bapak Matematika & Algoritma</div>
+      <p><strong>Lahir:</strong> Khwarazm, Uzbekistan · <strong>Wafat:</strong> Baghdad</p>
+      <p><strong>Kontribusi:</strong> Menciptakan aljabar (kata "algebra" berasal dari karyanya). Kata "algoritma" berasal dari nama latinnya. Memperkenalkan angka nol (0) dan sistem desimal ke dunia Barat. Membuat tabel trigonometri pertama.</p>
+      <div style="margin-top:.8rem"><span class="tag">Matematika</span><span class="tag">Astronomi</span><span class="tag">Geografi</span></div>
+    </div>
+
+    <div class="tokoh-card fade-in" style="border-top-color:var(--gold)">
+      <h3>Imam Bukhari (810–870 M)</h3>
+      <div class="period">Ulama Hadits Terbesar Sepanjang Masa</div>
+      <p><strong>Lahir:</strong> Bukhara, Uzbekistan · <strong>Wafat:</strong> Samarkand (62 tahun)</p>
+      <p><strong>Biodata:</strong> Hafal 100.000 hadits shahih dan 200.000 hadits tidak shahih beserta seluruh sanadnya. Mulai meneliti hadits sejak usia 16 tahun.</p>
+      <p><strong>Kontribusi:</strong> Menyusun Shahih Bukhari — kitab paling shahih setelah Al-Qur'an. Mengembangkan metodologi ilmu hadits ('ilm al-rijal) yang sangat ketat.</p>
+      <div style="margin-top:.8rem"><span class="tag">Hadits</span><span class="tag">Hafiz</span><span class="tag">Muhadditsin</span></div>
+    </div>
+
+    <div class="tokoh-card fade-in" style="border-top-color:var(--sage)">
+      <h3>Imam Syafi'i (767–820 M)</h3>
+      <div class="period">Pendiri Madzhab Syafi'i · Bapak Ushul Fiqh</div>
+      <p><strong>Lahir:</strong> Gaza, Palestina · <strong>Wafat:</strong> Fustat (Kairo), Mesir (54 tahun)</p>
+      <p><strong>Biodata:</strong> Hafal Al-Qur'an pada usia 7 tahun. Hafal kitab Al-Muwaththa' karya Imam Malik pada usia 10 tahun. Keturunan Nabi ﷺ dari Bani Muthalib.</p>
+      <p><strong>Kontribusi:</strong> Mendirikan ilmu Ushul Fiqh (metodologi hukum Islam). Menulis Ar-Risalah — karya revolusioner tentang teori hukum Islam. Madzhab Syafi'i adalah yang terbesar di dunia saat ini.</p>
+      <div style="margin-top:.8rem"><span class="tag">Fiqih</span><span class="tag">Ushul Fiqh</span><span class="tag">Hafiz</span><span class="tag">Penyair</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer id="footer-sec">
+  <div class="footer-quote">
+    "Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya."
+  </div>
+  <div class="footer-cite">— Rasulullah ﷺ (HR. Ahmad & Thabrani)</div>
+
+  <div class="footer-desc">
+    Website edukasi ini dibuat dengan penuh cinta untuk membantu generasi muda memahami
+    perjalanan panjang agama Islam dari masa Nabi ﷺ hingga ke Nusantara.
+    Semoga bermanfaat dan menjadi amal jariyah.
+  </div>
+
+  <div style="color:var(--gold-light);font-size:1.5rem;margin:1rem 0">✦ ☽ ✦</div>
+
+  <div class="footer-sig">rjw_2026</div>
+</footer>
+
+<!-- Back to Top Button -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ============================================================
+     LOADING SCREEN
+  ============================================================ */
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      document.getElementById('loading-screen').classList.add('hide');
+    }, 2200);
+  });
+
+  /* ============================================================
+     TEMA (dark/light)
+  ============================================================ */
+  function toggleTheme() {
+    // Ganti tema antara light dan dark
+    const current = document.documentElement.getAttribute('data-theme');
+    if (current === 'dark') {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  // Simpan preferensi tema
+  (function () {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+
+  /* ============================================================
+     MOBILE MENU
+  ============================================================ */
+  function toggleMenu() {
+    document.getElementById('nav-menu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('nav-menu').classList.remove('open');
+  }
+
+  /* ============================================================
+     NAVIGASI SECTION
+     Sembunyikan home, tampilkan section yang dipilih
+  ============================================================ */
+  function showSection(id) {
+    // Sembunyikan halaman utama
+    document.getElementById('main-home').style.display = 'none';
+    document.getElementById('footer-sec').style.display = 'none';
+
+    // Sembunyikan semua section materi
+    document.querySelectorAll('.materi-section').forEach(function (s) {
+      s.classList.remove('active');
+    });
+
+    // Tampilkan section yang dipilih
+    var target = document.getElementById('section-' + id);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function showHome() {
+    // Kembali ke halaman utama
+    document.getElementById('main-home').style.display = 'block';
+    document.getElementById('footer-sec').style.display = 'block';
+
+    document.querySelectorAll('.materi-section').forEach(function (s) {
+      s.classList.remove('active');
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ============================================================
+     ACCORDION
+  ============================================================ */
+  function toggleAcc(header) {
+    var body = header.nextElementSibling;
+    var isOpen = header.classList.contains('open');
+
+    // Tutup semua accordion lain di section yang sama
+    var parent = header.closest('.materi-section') || document;
+    parent.querySelectorAll('.acc-header.open').forEach(function (h) {
+      h.classList.remove('open');
+      h.nextElementSibling.classList.remove('open');
+    });
+
+    // Buka yang dipilih (jika belum terbuka)
+    if (!isOpen) {
+      header.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  /* ============================================================
+     BACK TO TOP
+  ============================================================ */
+  window.addEventListener('scroll', function () {
+    var btn = document.getElementById('back-top');
+    if (window.scrollY > 400) {
+      btn.classList.add('show');
+    } else {
+      btn.classList.remove('show');
+    }
+  });
+
+  /* ============================================================
+     FADE-IN ON SCROLL (Intersection Observer)
+  ============================================================ */
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // hanya sekali
+      }
+    });
+  }, { threshold: 0.12 });
+
+  // Observasi semua elemen dengan class fade-in
+  function observeFadeIns() {
+    document.querySelectorAll('.fade-in').forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+  observeFadeIns();
+
+  // Re-observasi ketika section dibuka (karena awalnya display:none)
+  var originalShowSection = showSection;
+  showSection = function (id) {
+    originalShowSection(id);
+    setTimeout(observeFadeIns, 100);
+  };
+
+</script>
+</body>
+</html>
+
